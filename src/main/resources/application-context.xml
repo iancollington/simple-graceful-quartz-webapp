@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="springShutdownHook" class="com.iancollington.blog.simplequartzwebapp.SpringShutdownHook"
+        p:scheduler-ref="simple.quartz.scheduler"/>
+
+    <bean id="simple.quartz.scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+          p:schedulerName="simple-scheduler"
+          p:configLocation="classpath:quartz.properties"
+          p:applicationContextSchedulerContextKey="applicationContext"
+          p:autoStartup="true">
+        <property name="jobFactory">
+            <bean class="org.springframework.scheduling.quartz.SpringBeanJobFactory"/>
+        </property>
+        <property name="jobDetails">
+            <list>
+                <ref bean="simpleJob"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="simpleJobTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="simpleJobTrigger"
+          class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean"
+          p:jobDetail-ref="simpleJob"
+          p:repeatInterval="60000"
+          p:startDelay="10000"
+          p:group="SIMPLE_JOB_GROUP"
+          p:name="SIMPLE_JOB"/>
+
+    <bean id="simpleJob"
+          class="org.springframework.scheduling.quartz.JobDetailFactoryBean"
+          p:jobClass="com.iancollington.blog.simplequartzwebapp.SimpleJob"
+          p:durability="true"
+          p:group="SIMPLE_JOB_GROUP"
+          p:name="SIMPLE_JOB"/>
+</beans>

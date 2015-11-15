@@ -1,0 +1,6 @@
+tomcat:
+  image: tomcat:8.5
+  ports:
+    - "8080:8080"
+  volumes:
+    - ./target/simple-graceful-quartz-job-webapp:/usr/local/tomcat/webapps/simple-graceful-quartz-job-webapp
