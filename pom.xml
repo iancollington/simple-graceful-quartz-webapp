@@ -8,7 +8,7 @@
     <name>simple-graceful-quartz-job-webapp Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>4.2.3.RELEASE</spring.version>
+        <spring.version>4.3.17.RELEASE</spring.version>
         <quartz.version>2.2.0</quartz.version>
     </properties>
     <dependencies>
